@@ -4,8 +4,8 @@ const Order = require('../models/order');
 const Passport = require('passport');
 
 //Express validator
-const {check, validationResult} = require('express-validator/check');
-const {sanitize} = require('express-validator/filter');
+const {check, validationResult} = require('express-validator');
+const {sanitize} = require('express-validator');
 
 const querystring = require('querystring');
 const hotel = require('../models/hotel');
@@ -36,7 +36,7 @@ exports.signUpPost = [
     .custom((value, {req}) => value===req.body.password)
     .withMessage('Passwords do not match'),
 
-    sanitize('*').trim().escape(),
+    check('*').trim().escape(),
 
     (req,res,next) => {
         const errors = validationResult(req);
@@ -66,7 +66,7 @@ exports.loginGet = (req,res) => {
 }
 
 exports.loginPost =  Passport.authenticate('local',{
-    successMessage: 'loged in' ,
+    successMessage: 'logged in' ,
     successFlash: 'you were logged in ',
     successRedirect: '/',
     
